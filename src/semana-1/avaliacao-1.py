@@ -1,6 +1,16 @@
 from random import randrange
-from time import sleep
+import platform
 import os
+
+def clear():
+    if platform.system() == 'Linux':
+        os.system('clear')
+    elif platform.system() == 'Windows':
+        os.system('cls')
+    else:
+        os.system('clear')
+
+clear()
 
 plays = ('Rock', 'Spock', 'Paper', 'Lizard', 'Scissors')
 
@@ -19,7 +29,7 @@ player_one = int(input('Choose a number between 0 and 4? '))
 
 player_two = randrange(0, 4)
 
-os.system('clear')
+clear()
 
 print('Player chooses {}'.format(plays[player_one]))
 print('Computer chooses {}'.format(plays[player_two]))
