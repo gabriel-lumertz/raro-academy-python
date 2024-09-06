@@ -1,0 +1,25 @@
+## Ambiente Virtual no Linux
+
+# criar ambiente virtual
+
+python -m venv meu_ambiente_virtual
+
+# ativar ambiente virtual
+
+source .venv/bin/activate
+
+# desativar ambiente virtual
+
+deactivate
+
+--------------------------------------------
+
+## Utilizar o ambiente virtual
+
+# lista os pacotes 
+
+pip freeze
+
+# salva os pacotes no arquiv requirements
+
+cat requirements.txt
