@@ -38,6 +38,7 @@ env.bak/
 .mypy_cache/
 
 # pytest
+.pytest_cache
 .cache/
 nosetests.xml
 coverage.xml
