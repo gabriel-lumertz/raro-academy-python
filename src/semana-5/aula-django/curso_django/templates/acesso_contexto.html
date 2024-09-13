@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+     <link rel="stylesheet" href="{% static 'main.css' %}">
+     <script src="{% static 'main.js' %}"></script>
+    <title>Curso de Python</title>
+</head>
+    <body>
+        Nome: {{nome}} <br>
+        Cargo: {{cargo}} <br>
+        Data de nascimento: {{data_de_nascimento}} <br>
+        {% if aposentado %}
+            <h1>Que vida boa</h1>
+        {% endif %}
+        <p>Empresas que trabalhei:</p>
+        {% for empresa in empresas %} <br>
+            <td>{{ empresa }}</td>
+        {% endfor %}
+        <p>Cidades em que trabalhei:</p>
+        {% for cidade in cidades %} <br>
+            <td>Cidade: {{ cidade.nome }}</td>
+            <td>Estado: {{ cidade.estado}}</td>
+        {% endfor %}
+    </body>
+</html>
