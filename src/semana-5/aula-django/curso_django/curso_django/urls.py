@@ -16,11 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from curso.views import acesso_curso, acesso_curso_template, acesso_curso_template_contexto
+from curso.views import acesso_curso, acesso_curso_template, acesso_curso_template_contexto, criar_aluno
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('acesso/', acesso_curso),
     path('acesso-template/', acesso_curso_template),
-    path('acesso-template-contexto/', acesso_curso_template_contexto)
+    path('acesso-template-contexto/', acesso_curso_template_contexto, name='listagem_alunos'),
+    path('criar-aluno/', criar_aluno, name='criar_aluno')
 ]

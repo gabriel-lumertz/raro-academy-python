@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from .models import Aluno
 # Create your views here.
 
 def acesso_curso(request):
@@ -15,23 +16,34 @@ def acesso_curso_template(request):
     return render(request, 'acesso.html')
 
 def acesso_curso_template_contexto(request):
+    alunos = Aluno.objects.all()
+
     contexto = {
-        'nome': 'Gabriel',
-        'cargo': 'Desenvolvedor',
-        'data_de_nascimento': '10/11/1988',
-        'aposentado': True,
-        'empresas': [
-            'Sanremo',
-            'Gauchafarma',
-            'Procfit',
-            'Mais Economica'
-        ],
-        'cidades': [
-            {'nome': 'Esteio', 'estado': 'RS'},
-            {'nome': 'Porto Alegre', 'estado': 'RS'},
-            {'nome': 'Santos', 'estado': 'SP'},
-            {'nome': 'Canoas', 'estado': 'RS'}
-        ]
+        'alunos': alunos
     }
 
-    return render(request, 'acesso_contexto.html', contexto)
+    return render(request, 'listagem_alunos.html', contexto)
+
+
+def criar_aluno(request):
+    nome = request.POST.get('nome')
+    cargo = request.POST.get('cargo')
+    aposentado = request.POST.get('aposentado')
+    data_nascimento = request.POST.get('data_nascimento')
+
+    aluno = Aluno(
+        nome=nome,
+        cargo=cargo,
+        aposentado=True if aposentado else False,
+        data_de_nascimento=data_nascimento
+    )
+
+    aluno.save()
+
+    return redirect('listagem_alunos')
+
+def excluir_aluno(request, id):
+    aluno = Aluno.objects.get(id=id)
+    aluno.delete()
+
+    return redirect('listagem_alunos')
