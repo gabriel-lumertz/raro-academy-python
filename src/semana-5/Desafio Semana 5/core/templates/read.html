@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Raro Bank - Suas Caixinhas</title>
+</head>
+<body class="bg-sky-50 flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-4xl mx-auto text-center p-4">
+        
+        <!-- Título -->
+        <h1 class="text-4xl text-sky-600 m-4 p-4">Suas Caixinhas</h1>
+        
+        <!-- Botão de Voltar -->
+        <a href="{% url 'home' %}" class="inline-block">
+            <button class="rounded-full text-white bg-sky-600 m-4 px-4 py-2 hover:bg-sky-500 transition-colors">
+                Voltar
+            </button>
+        </a>
+        
+        <!-- Loop das Caixinhas -->
+        <div class="space-y-4">
+            {% for caixinha in caixinhas %}
+                <div class="bg-white p-6 rounded-lg shadow-md flex justify-between items-center">
+                    
+                    <!-- Informações da Caixinha -->
+                    <div class="text-left">
+                        <p class="font-semibold">Nome: {{ caixinha.name }}</p>
+                        <p>Objetivo: {{ caixinha.objective }}</p>
+                        <p>Valor: {{ caixinha.value }}</p>
+                    </div>
+                    
+                    <!-- Botões -->
+                    <div class="flex space-x-4">
+                        <!-- Botão Editar -->
+                        <a href="{% url 'atualizar_caixinha' caixinha.id %}">
+                            <button class="rounded-full text-white bg-sky-600 px-4 py-2 hover:bg-sky-500 transition-colors">
+                                Editar
+                            </button>
+                        </a>
+                        
+                        <!-- Botão Excluir -->
+                        <form action="{% url 'excluir_caixinha' caixinha.id %}" method="post">
+                            {% csrf_token %}
+                            <input class="cursor-pointer rounded-full text-white bg-red-600 px-4 py-2 hover:bg-red-500 transition-colors" type="submit" value="Excluir">
+                        </form>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</body>
+</html>
