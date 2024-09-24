@@ -1,49 +1,86 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from .models import Aluno
+from django.views.decorators.http import require_GET, require_POST
+from django.contrib import messages
+from .models import Turma, Professor
+from curso.forms import CriarTurma
 # Create your views here.
 
-def acesso_curso(request):
-    aluno = 'Gabriel Lumertz'
-    professor = 'Leonarod Marco'
-    nome_curso = 'Curso Python'
 
-    retorno = (f'Nome do curso: {nome_curso}, Professor: {professor}, Aluno: {aluno}')
-    
-    return HttpResponse(retorno)
+@require_POST
+def criar_turma(request):
+    form = CriarTurma(request.POST)
 
-def acesso_curso_template(request):
-    return render(request, 'acesso.html')
+    if form.is_valid():
+        nome = form.cleaned_data['nome']
+        ativa = form.cleaned_data['ativa']
+        inicio_aulas = form.cleaned_data['inicio_aulas']
+        fim_aulas = form.cleaned_data['fim_aulas']
 
-def acesso_curso_template_contexto(request):
-    alunos = Aluno.objects.all()
+        Turma.objects.create(
+            nome=nome,
+            ativa=True if ativa else False,
+            inicio_aulas=inicio_aulas,
+            fim_aulas=fim_aulas
+        )
+
+        messages.success(request, 'A turma foi criada com sucesso.')
+
+        return redirect('listar_turma')
+
+    form = CriarTurma()
+
+    return redirect('listar_turma')
+
+
+@require_GET
+def listar_turma(request):
+    turmas = Turma.objects.all()
 
     contexto = {
-        'alunos': alunos
+        'turmas': turmas
     }
 
-    return render(request, 'listagem_alunos.html', contexto)
+    return render(request, 'listar_turma.html', contexto)
 
 
-def criar_aluno(request):
+@require_GET
+def criar_turma_formulario(request):
+    contexto = {
+        'form': CriarTurma()
+    }
+    return render(request, 'criar_turma.html', contexto)
+
+
+@require_POST
+def criar_professor(request):
     nome = request.POST.get('nome')
-    cargo = request.POST.get('cargo')
-    aposentado = request.POST.get('aposentado')
+    ativo = request.POST.get('ativo')
     data_nascimento = request.POST.get('data_nascimento')
+    data_contratacao = request.POST.get('data_contratacao')
+    turma = request.POST.get('turma')
 
-    aluno = Aluno(
+    professor = Professor.objects.create(
         nome=nome,
-        cargo=cargo,
-        aposentado=True if aposentado else False,
-        data_de_nascimento=data_nascimento
+        ativo=True if ativo else False,
+        data_nascimento=data_nascimento,
+        data_contratacao=data_contratacao
     )
 
-    aluno.save()
+    professor.turmas.add(turma)
 
-    return redirect('listagem_alunos')
+    turma = Turma.objects.get(id=turma)
 
-def excluir_aluno(request, id):
-    aluno = Aluno.objects.get(id=id)
-    aluno.delete()
+    turma.professores.add(professor)
 
-    return redirect('listagem_alunos')
+    return redirect('listar_turma')
+
+
+@require_GET
+def criar_professor_formulario(request):
+    turmas = Turma.objects.all()
+
+    contexto = {
+        'turmas': turmas
+    }
+
+    return render(request, 'criar_professor.html', contexto)

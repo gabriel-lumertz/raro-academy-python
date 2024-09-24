@@ -16,12 +16,41 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from curso.views import acesso_curso, acesso_curso_template, acesso_curso_template_contexto, criar_aluno
+from curso.views import (
+    criar_turma,
+    criar_turma_formulario,
+    listar_turma,
+    criar_professor,
+    criar_professor_formulario
+)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('acesso/', acesso_curso),
-    path('acesso-template/', acesso_curso_template),
-    path('acesso-template-contexto/', acesso_curso_template_contexto, name='listagem_alunos'),
-    path('criar-aluno/', criar_aluno, name='criar_aluno')
+    path(
+        'admin/',
+        admin.site.urls
+    ),
+    path(
+        'criar-turma/',
+        criar_turma,
+        name='criar_turma'
+    ),
+    path(
+        'criar-turma-formulario/',
+        criar_turma_formulario,
+        name='criar_turma_formulario'
+    ),
+    path(
+        'listar-turma/',
+        listar_turma,
+        name='listar_turma'
+    ),
+    path(
+        'criar-professor-formulario/',
+        criar_professor_formulario,
+        name='criar_professor_formulario'),
+    path(
+        'criar-professor/',
+        criar_professor,
+        name='criar_professor'
+    )
 ]
