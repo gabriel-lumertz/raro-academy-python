@@ -1,9 +1,44 @@
+from django.views import View
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET, require_POST
 from django.contrib import messages
 from .models import Turma, Professor
 from curso.forms import CriarTurma
 # Create your views here.
+
+
+class CriarTurmaView(View):
+    def get(self, request, *args, **kwargs):
+        contexto = {
+            'form': CriarTurma()
+        }
+        return render(request, 'criar_turma.html', contexto)
+
+    def post(self, request, *args, **kwargs):
+        form = CriarTurma(request.POST)
+
+        if form.is_valid():
+            nome = form.cleaned_data['nome']
+            ativa = form.cleaned_data['ativa']
+            inicio_aulas = form.cleaned_data['inicio_aulas']
+            fim_aulas = form.cleaned_data['fim_aulas']
+
+            Turma.objects.create(
+                nome=nome,
+                ativa=True if ativa else False,
+                inicio_aulas=inicio_aulas,
+                fim_aulas=fim_aulas
+            )
+
+            messages.success(request, 'A turma foi criada com sucesso.')
+
+            return redirect('listar_turma')
+
+        contexto = {
+            'form': form
+        }
+
+        return render(request, 'criar_turma.html', contexto)
 
 
 @require_POST

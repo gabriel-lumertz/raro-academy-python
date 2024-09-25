@@ -17,11 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from curso.views import (
-    criar_turma,
+    # criar_turma,
     criar_turma_formulario,
     listar_turma,
     criar_professor,
-    criar_professor_formulario
+    criar_professor_formulario,
+    CriarTurmaView
 )
 
 urlpatterns = [
@@ -29,9 +30,14 @@ urlpatterns = [
         'admin/',
         admin.site.urls
     ),
+    # path(
+    #     'criar-turma/',
+    #     criar_turma,
+    #     name='criar_turma'
+    # ),
     path(
         'criar-turma/',
-        criar_turma,
+        CriarTurmaView.as_view(),
         name='criar_turma'
     ),
     path(

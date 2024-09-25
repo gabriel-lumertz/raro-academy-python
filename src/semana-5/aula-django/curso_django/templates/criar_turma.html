@@ -4,19 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Turma</title>
+    <style>
+        .form {
+            width: 30%;
+            margin: 0 auto;
+        }
+        .form-group {
+            border: solid 1px #d8d8d8;
+            padding: 8px;
+            margin: 8px;
+        }
+
+        .form-group input {
+            padding: 4px;
+            border-radius: 4px;
+            border: solid 1px gray;
+        }
+
+        form input[type='submit'] {
+            width: 100%;
+            background: rgb(151, 55, 246);
+            color: white;
+            border-radius: 4px;
+            border: solid 1px transparent;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .form-group .error {
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            background-color: red;
+            padding: 8px;
+            margin: 8px;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
-    <form action="{% url 'criar_turma' %}" method="post">
+    <form class="form" action="{% url 'criar_turma' %}" method="post">
         {% csrf_token %}
 
-        {{ form }}
-
-        <input type="submit" value="Criar Turma">
-        {% for field in form %}
-            {% for error in field.errors %}
-                {{ error }}
+        <div class="form-group">
+            <label for="{{ form.nome.id_for_label }}">{{ form.nome.label }}</label>
+            {{ form.nome }}
+            {% for error in form.nome.errors %}
+                <div class="error">{{ error }}</div>
             {% endfor %}
-        {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.inicio_aulas.id_for_label }}">{{ form.inicio_aulas.label }}</label>
+            {{ form.inicio_aulas }}
+            {% for error in form.inicio_aulas.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.fim_aulas.id_for_label }}">{{ form.fim_aulas.label }}</label>
+            {{ form.fim_aulas }}
+            {% for error in form.fim_aulas.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.ativa.id_for_label }}">{{ form.ativa.label }}</label>
+            {{ form.ativa }}
+            {% for error in form.ativa.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <input class="form-group" type="submit" value="Criar Turma">
     </form>
 </body>
 </html>
