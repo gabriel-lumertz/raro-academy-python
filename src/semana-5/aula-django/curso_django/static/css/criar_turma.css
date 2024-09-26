@@ -1,0 +1,48 @@
+form {
+    width: 30%;
+    margin: 5% auto;
+    border: solid 1px #d8d8d8;
+    border-radius: 5px;
+    padding: 50px;
+}
+
+.form-group {
+    padding: 10px;
+    margin: 10px 0px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-group input {
+    padding: 15px;
+    border-radius: 5px;
+    border: solid 1px grey;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.form-group input[type="checkbox"] {
+    width: auto;
+}
+
+.form-group .error {
+    text-align: center;
+    font-weight: bold;
+    color: #7f2f2f;
+    background-color: #e08888cf;
+    padding: 8px;
+    margin: 8px;
+    border-radius: 4px;
+}
+
+form input[type="submit"] {
+    background-color: #343090;
+    color: white;
+    font-weight: bold;
+    border: solid 1px transparent;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+}

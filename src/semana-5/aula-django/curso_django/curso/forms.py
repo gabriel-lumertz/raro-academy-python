@@ -9,11 +9,11 @@ class CriarTurma(forms.Form):
     )
     inicio_aulas = forms.DateField(
         label='Início das Aulas',
-        widget=forms.SelectDateWidget()
+        widget=forms.DateInput(attrs={'type': 'date'})
     )
     fim_aulas = forms.DateField(
         label='Fim das Aulas',
-        widget=forms.SelectDateWidget()
+        widget=forms.DateInput(attrs={'type': 'date'})
     )
     ativa = forms.BooleanField(
         label='Turma ativa',
