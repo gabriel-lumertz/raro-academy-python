@@ -31,3 +31,15 @@ class CriarTurma(forms.Form):
             raise forms.ValidationError('Proibido essa turma.')
 
         return self.cleaned_data['nome']
+
+
+class LoginForm(forms.Form):
+    usuario = forms.CharField(
+        label='Usuário',
+        widget=forms.TextInput()
+    )
+
+    senha = forms.CharField(
+        label='Senha',
+        widget=forms.PasswordInput()
+    )

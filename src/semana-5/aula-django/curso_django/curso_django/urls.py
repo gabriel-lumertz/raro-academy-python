@@ -22,7 +22,9 @@ from curso.views import (
     listar_turma,
     criar_professor,
     criar_professor_formulario,
-    CriarTurmaView
+    CriarTurmaView,
+    LoginView,
+    LogoutView
 )
 
 urlpatterns = [
@@ -35,6 +37,16 @@ urlpatterns = [
     #     criar_turma,
     #     name='criar_turma'
     # ),
+    path(
+        'login/',
+        LoginView.as_view(),
+        name='login'
+    ),
+    path(
+        'logout/',
+        LogoutView.as_view(),
+        name='logout'
+    ),
     path(
         'criar-turma/',
         CriarTurmaView.as_view(),

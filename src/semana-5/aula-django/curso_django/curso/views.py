@@ -2,12 +2,15 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET, require_POST
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from .models import Turma, Professor
-from curso.forms import CriarTurma
+from curso.forms import CriarTurma, LoginForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 
-class CriarTurmaView(View):
+class CriarTurmaView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         contexto = {
             'form': CriarTurma()
@@ -67,8 +70,10 @@ def criar_turma(request):
     return redirect('listar_turma')
 
 
+@login_required
 @require_GET
 def listar_turma(request):
+    print(f'Usuário que logou: # {request.user.id} {request.user.username}')
     turmas = Turma.objects.all()
 
     contexto = {
@@ -119,3 +124,40 @@ def criar_professor_formulario(request):
     }
 
     return render(request, 'criar_professor.html', contexto)
+
+
+class LoginView(View):
+    def get(self, request):
+        contexto = {
+            'form': LoginForm()
+        }
+        return render(request, 'login.html', contexto)
+
+    def post(self, request):
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+            usuario = form.cleaned_data['usuario']
+            senha = form.cleaned_data['senha']
+
+            user = authenticate(
+                request,
+                username=usuario,
+                password=senha
+            )
+
+            if user is not None:
+                login(request, user)
+                return redirect('listar_turma')
+            else:
+                messages.error(request, 'Usuário ou senha inválidos')
+                return render(request, 'login.html', {'form': form})
+
+        return render(request, 'login.html', {'form': form})
+
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+
+        return redirect('login')
