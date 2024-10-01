@@ -12,12 +12,18 @@ class Turma(models.Model):
     professores = models.ManyToManyField('Professor', related_name='turmas')
     alunos = models.ManyToManyField('Aluno', related_name='turmas')
 
+    def __str__(self):
+        return f'{self.nome}'
+
 
 class Professor(models.Model):
     nome = models.CharField(max_length=50)
     ativo = models.BooleanField(default=False)
     data_nascimento = models.DateField()
     data_contratacao = models.DateField()
+
+    def __str__(self):
+        return f'{self.nome}'
 
 
 class Aluno(models.Model):
