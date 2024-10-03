@@ -1,0 +1,19 @@
+{% extends 'admin/change_list.html' %}
+{% load static %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'css/admin/change_list.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>Teste</h1>
+    <div class="container">
+        <div class="item">
+            Total Turmas: {{ total_turmas }}
+        </div>
+        <div class="item">
+            Turmas Ativas: {{ total_ativas }}
+        </div>
+    </div>
+    {{ block.super }}
+{% endblock content %}

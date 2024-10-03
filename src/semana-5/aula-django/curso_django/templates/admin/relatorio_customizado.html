@@ -1,0 +1,17 @@
+{% extends 'admin/base_site.html' %}
+
+{% block content %}
+    <h1>{{ titulo }}</h1>
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Início das Aulas</th>
+        </tr>
+        {% for turma in turmas %}
+        <tr>
+            <td>{{ turma.nome }}</td>
+            <td>{{ turma.inicio_aulas }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock content %}

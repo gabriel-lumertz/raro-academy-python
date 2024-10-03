@@ -1,5 +1,7 @@
 from django.contrib import admin
 from .models import Turma, AtividadeAluno, Aluno, Professor
+from django.urls import path
+from django.template.response import TemplateResponse
 
 # Register your models here.
 
@@ -10,6 +12,36 @@ def marcar_como_inativa(modeladmin, request, queryset):
 
 
 class TurmaAdmin(admin.ModelAdmin):
+    def get_urls(self):
+        urls = super().get_urls()
+
+        custom_urls = [
+            path(
+                'relatorio',
+                self.admin_site.admin_view(self.relatorio_customizado)
+            )
+        ]
+
+        return custom_urls + urls
+
+    def relatorio_customizado(self, request):
+        contexto = {
+            'titulo': 'Relatorio Personalizado',
+            'turmas': Turma.objects.all()
+        }
+
+        return TemplateResponse(
+            request,
+            'admin/relatorio_customizado.html',
+            contexto)
+
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['total_turmas'] = Turma.objects.count()
+        extra_context['total_ativas'] = Turma.objects.filter(ativa=True).count()
+
+        return super().changelist_view(request, extra_context)
+
     list_display = (
         'nome',
         'ativa',
