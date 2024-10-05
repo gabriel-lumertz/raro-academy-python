@@ -1,0 +1,7 @@
+<h1>Adicionar Produto</h1>
+<form method="post">
+    {% csrf_token %}
+    <label>Nome:</label><input type="text" name="nome">
+    <label>Preço:</label><input type="text" name="preco">
+    <button type="submit">Adicionar</button>
+</form>
